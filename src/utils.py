@@ -1,4 +1,5 @@
 import csv
+import json
 import datetime
 from collections import Counter
 import pandas as pd
@@ -41,18 +42,39 @@ def return_abbreviated_list_of_dict(date):
     return filtered_transactions
 
 
-def get_card_number(filtered_transactions):
+def get_card_number(transactions):
     """группирует данные по номеру карты, высчитывает сумму всех операций и кэшбэка за указанный период"""
-    df = pd.DataFrame(filtered_transactions)
+    df = pd.DataFrame(transactions)
     df["Сумма операции"] = df["Сумма операции"].str.replace(",", ".").str.strip().astype(float)
     df["Кэшбэк"] = pd.to_numeric(df["Кэшбэк"], errors='coerce')
     df["Кэшбэк"] = df["Кэшбэк"].fillna(0)
+    df = df[df["Номер карты"] != '']
     card_num_df = df.groupby("Номер карты")[["Сумма операции", "Кэшбэк"]].sum()
     return card_num_df
 
 
+def format_dataframe_to_json(df, greeting):
+    cards_data = []
+    for card_number, row in df.iterrows():
+        last_digits = str(card_number)[-4:] if len(str(card_number)) >= 4 else str(card_number)
+        card_info = {
+            "last_digits": last_digits,
+            "total_spent": round(row["Сумма операции"], 2),
+            "cashback": round(row["Кэшбэк"], 2)
+        }
+        cards_data.append(card_info)
+    json_data = {
+        "greeting": greeting,
+        "cards": cards_data
+    }
+
+    json_string = json.dumps(json_data, ensure_ascii=False, indent=2)
+    return json_string
+
+
 if __name__ == '__main__':
     transactions = return_abbreviated_list_of_dict('30.12.2021 19:04:44')
-    result = get_card_number(transactions)
-    # result = return_abbreviated_list_of_dict(date='9.12.2021 19:04:44')
+    df = get_card_number(transactions)
+    greeting = define_time()
+    result = format_dataframe_to_json(df, greeting)
     print(result)
