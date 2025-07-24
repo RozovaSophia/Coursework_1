@@ -1,6 +1,9 @@
 import csv
 import datetime
+from collections import Counter
 import pandas as pd
+
+pd.set_option('display.max_columns', None)
 
 
 def read_csv_file(file_path=r"C:\Users\Thunderobot\Downloads\operations.xlsx - Отчет по операциям.csv", output_file_path="../data/operations.csv"):
@@ -37,10 +40,19 @@ def return_abbreviated_list_of_dict(date):
             filtered_transactions.append(transaction)
     return filtered_transactions
 
-def get_card_number(file_path="../data/operations.csv"):
-    pass
+
+def get_card_number(filtered_transactions):
+    """группирует данные по номеру карты, высчитывает сумму всех операций и кэшбэка за указанный период"""
+    df = pd.DataFrame(filtered_transactions)
+    df["Сумма операции"] = df["Сумма операции"].str.replace(",", ".").str.strip().astype(float)
+    df["Кэшбэк"] = pd.to_numeric(df["Кэшбэк"], errors='coerce')
+    df["Кэшбэк"] = df["Кэшбэк"].fillna(0)
+    card_num_df = df.groupby("Номер карты")[["Сумма операции", "Кэшбэк"]].sum()
+    return card_num_df
 
 
 if __name__ == '__main__':
-    result = return_abbreviated_list_of_dict('5.11.2018 16:48:11')
+    transactions = return_abbreviated_list_of_dict('30.12.2021 19:04:44')
+    result = get_card_number(transactions)
+    # result = return_abbreviated_list_of_dict(date='9.12.2021 19:04:44')
     print(result)
