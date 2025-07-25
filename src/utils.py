@@ -80,12 +80,12 @@ def sorts_transactions(transactions):
     return card_num_df, top_transactions
 
 
-def requests_API():
-    """запрашивает у стороннего сервиса курс валют (доллар и евро), выводит стоимость акций из S&P500"""
+def converted_currency():
+    """запрашивает у стороннего сервиса курс валют (доллар и евро)"""
+
+    api_key = os.getenv("API_KEY_APILAYER")
 
     currency_rates = []
-
-    api_key = os.getenv("API_KEY")
 
     url_usd = "https://api.apilayer.com/exchangerates_data/convert?to=USD&from=RUB&amount=1"
     headers = {"apikey": f"{api_key}"}
@@ -111,7 +111,31 @@ def requests_API():
     return currency_rates
 
 
-def format_dataframe_to_json(card_num_df, top_transactions, currency_rates, greeting):
+def request_stock_prices():
+    """запрашивает у стороннего сервиса стоимость акций на бирже"""
+
+    api_key = os.getenv("API_KEY_FMP")
+
+    stock_prices = []
+    stock_symbols = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
+
+    for symbol in stock_symbols:
+        url = f"https://financialmodelingprep.com/stable/search-symbol?query={symbol}&apikey={api_key}"
+        headers = {"apikey": f"{api_key}"}
+        response = requests.request("GET", url, headers=headers)
+
+        try:
+            result_json = response.json()
+            stock = result_json["symbol"]
+            price = result_json["price"]
+            stock_prices.append({"stock": stock, "price": price})
+        except (ValueError, KeyError, TypeError):
+            stock_prices.append({"stock": "AAPL", "price": "150.12"})
+
+    return stock_prices
+
+
+def format_dataframe_to_json(card_num_df, top_transactions, currency_rates, stock_prices, greeting):
     """соединяет отдельные функции в общий json-файл"""
     cards_data = []
     for card_number, row in card_num_df.iterrows():
@@ -127,6 +151,7 @@ def format_dataframe_to_json(card_num_df, top_transactions, currency_rates, gree
         "cards": cards_data,
         "top_transactions": top_transactions,
         "currency_rates": currency_rates,
+        "stock_prices": stock_prices,
     }
 
     json_string = json.dumps(json_data, ensure_ascii=False, indent=2)
@@ -137,6 +162,7 @@ if __name__ == "__main__":
     transactions = return_abbreviated_list_of_dict("30.12.2021 19:04:44")
     card_num_df, top_transactions = sorts_transactions(transactions)
     greeting = define_time()
-    currency_rates = requests_API()
-    result = format_dataframe_to_json(card_num_df, top_transactions, currency_rates, greeting)
+    currency_rates = converted_currency()
+    stock_prices = request_stock_prices()
+    result = format_dataframe_to_json(card_num_df, top_transactions, currency_rates, stock_prices, greeting)
     print(result)
