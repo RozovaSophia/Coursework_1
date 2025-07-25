@@ -43,19 +43,37 @@ def return_abbreviated_list_of_dict(date):
 
 
 def get_card_number(transactions):
-    """группирует данные по номеру карты, высчитывает сумму всех операций и кэшбэка за указанный период"""
+    """группирует данные по номеру карты, высчитывает сумму всех операций и кэшбэка за указанный период.
+    Сортирует транзакции по категориям"""
+
     df = pd.DataFrame(transactions)
     df["Сумма операции"] = df["Сумма операции"].str.replace(",", ".").str.strip().astype(float)
+
     df["Кэшбэк"] = pd.to_numeric(df["Кэшбэк"], errors='coerce')
     df["Кэшбэк"] = df["Кэшбэк"].fillna(0)
     df = df[df["Номер карты"] != '']
     card_num_df = df.groupby("Номер карты")[["Сумма операции", "Кэшбэк"]].sum()
-    return card_num_df
+
+    df = df[df['Категория'] != '']
+    category_counts = df['Категория'].value_counts()
+    top_5_categories = category_counts.head(5)
+    top_transactions = []
+    for category, count in top_5_categories.items():
+        example_transaction = df[df['Категория'] == category].iloc[0]
+
+        top_transactions.append({
+            "date": example_transaction['Дата операции'],  # или другой столбец с датой
+            "amount": example_transaction['Сумма операции'],
+            "category": category,
+            "description": example_transaction['Описание']  # или другой столбец с описанием
+        })
+
+    return card_num_df, top_transactions
 
 
-def format_dataframe_to_json(df, greeting):
+def format_dataframe_to_json(card_num_df, top_transactions, greeting):
     cards_data = []
-    for card_number, row in df.iterrows():
+    for card_number, row in card_num_df.iterrows():
         last_digits = str(card_number)[-4:] if len(str(card_number)) >= 4 else str(card_number)
         card_info = {
             "last_digits": last_digits,
@@ -65,7 +83,8 @@ def format_dataframe_to_json(df, greeting):
         cards_data.append(card_info)
     json_data = {
         "greeting": greeting,
-        "cards": cards_data
+        "cards": cards_data,
+        "top_transactions": top_transactions
     }
 
     json_string = json.dumps(json_data, ensure_ascii=False, indent=2)
@@ -74,7 +93,7 @@ def format_dataframe_to_json(df, greeting):
 
 if __name__ == '__main__':
     transactions = return_abbreviated_list_of_dict('30.12.2021 19:04:44')
-    df = get_card_number(transactions)
+    card_num_df, top_transactions = get_card_number(transactions)
     greeting = define_time()
-    result = format_dataframe_to_json(df, greeting)
+    result = format_dataframe_to_json(card_num_df, top_transactions, greeting)
     print(result)
