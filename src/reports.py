@@ -1,3 +1,4 @@
+import json
 import csv
 import datetime
 import os
@@ -16,11 +17,10 @@ def decorator_for_writing_to_file(filename=None):
                 file_name = filename
             else:
                 func_name = func.__name__
-                file_name = os.path.join("..", "data", f"{func_name}.txt")
+                file_name = os.path.join("..", "data", f"{func_name}.json")
 
             with open(file_name, "w", encoding="utf-8") as f:
-                f.write(str(result))
-
+                json.dump(json.loads(result), f, indent=4, ensure_ascii=False)
             return result
 
         return wrapper
@@ -55,7 +55,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: str = 
             if category == "Все категории" or transaction["Категория"] == category:
                 filtered_transactions.append(transaction)
     filtered_transactions = pd.DataFrame(filtered_transactions)
-    result = filtered_transactions.groupby("Категория")["Сумма операции"].sum()
+    result = filtered_transactions.groupby("Категория")["Сумма операции"].sum().to_json(indent=4, force_ascii=False)
 
     return result
 
