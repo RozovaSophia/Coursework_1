@@ -1,3 +1,4 @@
+from src.services import search_for_transactions_by_individ
 from src.utils import *
 
 
@@ -13,6 +14,21 @@ def transaction_analysis(date: str):
     return result
 
 
+def services():
+    while True:
+        print("Желаете посмотреть информацию о переводах физическим лицам? Да/Нет")
+        user_input = input().lower()
+        if user_input == "да":
+            data = search_for_transactions_by_individ()
+            print(data)
+            break
+        elif user_input == "нет":
+            break
+        else:
+            print("Повторите попытку.")
+
+
 if __name__ == "__main__":
-    result = transaction_analysis("30.12.2021 19:04:44")
-    print(result)
+    result_1 = transaction_analysis("30.12.2021 19:04:44")
+    result_2 = services()
+    print(result_1, result_2)
