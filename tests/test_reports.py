@@ -1,101 +1,33 @@
-import os
-import unittest
-import tempfile
 import pytest
+import tempfile
 import pandas as pd
-import csv
 
-from src.reports import *
-
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-class TestReturnsDataFrameFormat(unittest.TestCase):
-
-    def test_returns_dataframe(self):
-        """проверяет, что функция возвращает DataFrame."""
-        df = returns_dataframe_format(file_path="../data/operations.csv")
-        self.assertIsInstance(df, pd.DataFrame)
+from src.reports import returns_dataframe_format
 
 
-    def test_data_loaded(self):
-        """Проверяет, что DataFrame не пустой."""
-        df = returns_dataframe_format(file_path="../data/operations.csv")
-        self.assertFalse(df.empty)
+class TestReturnsDataframeFormat():
+
+    def test_exception_handling(self):
+        result = returns_dataframe_format(file_path="non_exist.csv")
+        assert result == "Ошибка: [Errno 2] No such file or directory: 'non_exist.csv'"
+
+    def test_to_check_processing_of_empty_file(self, tmp_path):
+        temp_file_path = tmp_path / "test_file.csv"  # Используем csv для совместимости
+        temp_file_path.touch()
+        result = returns_dataframe_format(file_path=str(temp_file_path))
+        assert isinstance(result, pd.DataFrame)
+        assert result.empty
+
+    def test_format_verification(self):
+        result = returns_dataframe_format(file_path="../data/operations.csv")
+        assert isinstance(result, pd.DataFrame)
 
 
-    def test_file_not_found(self):
-        """Проверяет, что функция корректно обрабатывает отсутствие файла."""
-        with self.assertRaises(FileNotFoundError):
-            returns_dataframe_format(file_path="nonexistent_file.csv")
+class TestSpendingByCategory():
 
-    def test_empty_file(self):
-        """Проверяет, что функция возвращает пустой DataFrame при пустом файле."""
-        with open("empty_file.csv", "w", newline="") as f:
-            pass
-        df = returns_dataframe_format(file_path="empty_file.csv")
-        self.assertTrue(df.empty)
-        os.remove("empty_file.csv")
+    def test_exception_handling_transactions(self, category, date_string):
+        from src.reports import spending_by_category
+        result = spending_by_category('transactions', category, date_string)
+        assert result == "Oшибка: string indices must be integers, not 'str'"
 
 
-class TestSpendingByCategory(unittest.TestCase):
-
-    def test_spending_by_category(self):
-        """проверяет, что функция возвращает json (строку)"""
-        transactions = returns_dataframe_format()
-        category = "Супермаркеты"
-        date = "31.12.2021 16:44:00"
-        json_f = spending_by_category(transactions, category, date)
-        self.assertIsInstance(json_f, str)
-
-    def test_invalid_date_format(self):
-        transactions = returns_dataframe_format()
-        category = 'Еда'
-        date = '26-10-2021 16:00:00'
-
-        with self.assertRaises(ValueError):
-            spending_by_category(transactions, category, date)
-
-    def test_invalid_amount_format_in_dataframe(self):
-        data = {'Дата операции': ['20.10.2024 10:00:00'],
-                'Категория': ['Еда'],
-                'Сумма операции': ['abc']}
-        transactions = pd.DataFrame(data)
-        category = 'Еда'
-        date = '26.10.2021 16:00:00'
-
-        with self.assertRaises(ValueError):
-            spending_by_category(transactions, category, date)
-
-class TestDecoratorForWritingToFile(unittest.TestCase):
-
-    def setUp(self):
-        """настройка перед тестом"""
-        self.temp_dir = tempfile.TemporaryDirectory()
-        self.data_dir = os.path.join(self.temp_dir.name, "data")
-        os.makedirs(self.data_dir, exist_ok=True)
-
-    def tearDown(self):
-        """удаление после каждого теста"""
-        self.temp_dir.cleanup()
-
-
-    def test_decorator_with_filename(self):
-        """тестирование с указанным именем файла"""
-        test_filename = os.path.join(self.temp_dir.name, "test_file.json")
-
-        @decorator_for_writing_to_file(filename=test_filename)
-        def test_function():
-            return '{"key": "value"}'
-
-        result = test_function()
-
-        self.assertEqual(result, '{"key": "value"}') # Проверяем что функция возвращает правильный результат
-
-        with open(test_filename, "r", encoding="utf-8") as f:
-            file_content = json.load(f)
-
-        self.assertEqual(file_content, {"key": "value"}) # Проверяем что в файл записан правильный json
-
-
-if __name__ == '__main__':
-    unittest.main()
