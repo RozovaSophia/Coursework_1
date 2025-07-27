@@ -7,6 +7,8 @@ import csv
 
 from src.reports import *
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 class TestReturnsDataFrameFormat(unittest.TestCase):
 
     def test_returns_dataframe(self):
