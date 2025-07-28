@@ -43,14 +43,19 @@ def define_time():
 
 def return_abbreviated_list_of_dict(date):
     """пользователь вводит дату и функция возвращает данные до этой даты, отсчитывая от начала указанного месяца"""
-    data = read_csv_file()
-    date_obj = datetime.datetime.strptime(date, "%d.%m.%Y %H:%M:%S")
-    filtered_transactions = []
-    for transaction in data:
-        date_obj_csv = datetime.datetime.strptime(transaction["Дата операции"], "%d.%m.%Y %H:%M:%S")
-        if date_obj_csv < date_obj and date_obj_csv.month == date_obj.month:
-            filtered_transactions.append(transaction)
-    return filtered_transactions
+    try:
+        data = read_csv_file()
+        date_obj = datetime.datetime.strptime(date, "%d.%m.%Y %H:%M:%S")
+        filtered_transactions = []
+        for transaction in data:
+            date_obj_csv = datetime.datetime.strptime(transaction["Дата операции"], "%d.%m.%Y %H:%M:%S")
+            if date_obj_csv < date_obj and date_obj_csv.month == date_obj.month:
+                filtered_transactions.append(transaction)
+        return filtered_transactions
+    except ValueError as e:
+        return f"Ошибка: {e}"
+    except TypeError as e:
+        return f"Ошибка: {e}"
 
 
 def sorts_transactions(transactions):
@@ -74,10 +79,10 @@ def sorts_transactions(transactions):
 
         top_transactions.append(
             {
-                "date": example_transaction["Дата операции"],  # или другой столбец с датой
+                "date": example_transaction["Дата операции"],
                 "amount": example_transaction["Сумма операции"],
                 "category": category,
-                "description": example_transaction["Описание"],  # или другой столбец с описанием
+                "description": example_transaction["Описание"],
             }
         )
 
