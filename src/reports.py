@@ -1,12 +1,23 @@
 import csv
 import datetime
 import json
+import logging
 import os
 from typing import Any
 
 import pandas as pd
 
 PATH = os.path.dirname(os.path.abspath(__file__))
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    filename="logging.log",
+    filemode="w",
+    encoding="utf-8",
+)
+
+reports_logger = logging.getLogger("reports")
 
 
 def decorator_for_writing_to_file(filename=None):
@@ -44,8 +55,10 @@ def returns_dataframe_format():
             reader = csv.DictReader(f, delimiter=",")
             data = list(reader)
             transactions = pd.DataFrame(data)
+            reports_logger.info("Данные успешно преобразованы в DataFrame")
             return transactions
     except FileNotFoundError as e:
+        reports_logger.error("Ошибка!")
         return f"Ошибка: {e}"
 
 
@@ -68,19 +81,24 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: str = 
                     if category == "Все категории" or transaction["Категория"] == category:
                         filtered_transactions.append(transaction)
                 except KeyError as e:
+                    reports_logger.error("Ошибка!")
                     return f"Ошибка: {e}"
         filtered_transactions = pd.DataFrame(filtered_transactions)
         result = (
             filtered_transactions.groupby("Категория")["Сумма операции"].sum().to_json(indent=4, force_ascii=False)
         )
+        reports_logger.info("Данные успешно преобразованы в DataFrame")
 
         return result
 
     except TypeError as e:
+        reports_logger.error("Ошибка!")
         return f"Oшибка: {e}"
     except ValueError as e:
+        reports_logger.error("Ошибка!")
         return f"Ошибка: {e}"
     except KeyError as e:
+        reports_logger.error("Ошибка!")
         return f"Ошибка: {e}"
 
 
