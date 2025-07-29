@@ -7,16 +7,18 @@ import pandas as pd
 import requests
 from dotenv import load_dotenv
 
+PATH = os.path.dirname(os.path.abspath(__file__))
+
 load_dotenv()
 pd.set_option("display.max_columns", None)
 
-def read_csv_file(
-    file_path=r"C:\Users\Thunderobot\Downloads\operations.xlsx - Отчет по операциям.csv",
-    output_file_path="../data/operations.csv"
-):
+
+def read_csv_file(output_file_path=os.path.join(PATH, "..", "data", "operations.csv")):
     """считывает файл csv, выводит в виде списка словарей, записывает в новый файл"""
     try:
-        with open(file_path, "r", encoding="UTF-8") as infile:  # Открываем для чтения
+        with open(
+            r"C:\Users\Thunderobot\Downloads\operations.xlsx - Отчет по операциям.csv", "r", encoding="UTF-8"
+        ) as infile:
             reader = csv.DictReader(infile, delimiter=",")
             data = list(reader)
             with open(output_file_path, "w", encoding="UTF-8", newline="") as outfile:
@@ -44,7 +46,7 @@ def define_time():
 def return_abbreviated_list_of_dict(date):
     """пользователь вводит дату и функция возвращает данные до этой даты, отсчитывая от начала указанного месяца"""
     try:
-        data = read_csv_file()
+        data = read_csv_file(output_file_path=os.path.join(PATH, "..", "data", "operations.csv"))
         date_obj = datetime.datetime.strptime(date, "%d.%m.%Y %H:%M:%S")
         filtered_transactions = []
         for transaction in data:

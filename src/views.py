@@ -15,12 +15,13 @@ def transaction_analysis(date: str):
         result = format_dataframe_to_json(card_num_df, top_transactions, currency_rates, stock_prices, greeting)
         return result
     except ValueError as e:
-        return f'Ошибка: {e}'
+        return f"Ошибка: {e}"
     except TypeError as e:
-        return f'Ошибка: {e}'
+        return f"Ошибка: {e}"
+
 
 if __name__ == "__main__":
-    result_1 = transaction_analysis(2)
+    result_1 = transaction_analysis("31.12.2021 16:44:00")
     print(result_1)
 
 
@@ -51,7 +52,7 @@ def reports():
             user_input_category = input().capitalize()
             print("Чтобы получить данные за последние три месяца, введите дату: ")
             user_input_date = input().lower()
-            data = spending_by_category(transactions, user_input_category, user_input_date)
+            data = spending_by_category_decorated(transactions, user_input_category, user_input_date)
             return data
         elif user_input == "нет":
             break

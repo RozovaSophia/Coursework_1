@@ -1,12 +1,15 @@
 import json
+import os
 import re
 
 from src.utils import read_csv_file
 
+PATH = os.path.dirname(os.path.abspath(__file__))
+
 
 def search_for_transactions_by_individ():
     """возвращает только транзакции перевода физ.лицам"""
-    data = read_csv_file("../data/operations.csv")
+    data = read_csv_file(os.path.join(PATH, "..", "data", "operations.csv"))
     pattern = re.compile(r"^[А-Я][а-я]+ [А-Я]\.$")
     transactions_for_individ = [
         row for row in data if row["Категория"] == "Переводы" and re.match(pattern, row["Описание"]) is not None

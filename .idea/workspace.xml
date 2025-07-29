@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e544d3bf-cf56-4a89-8191-5b9386595c2f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Coursework_1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Coursework_1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +33,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -38,13 +48,125 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.utils.executor": "Run",
+    "Python tests.Python tests for test_reports.TestDecoratorForWritingToFile.test_decorator_with_filename.executor": "Run",
+    "Python tests.Python tests for test_reports.TestReturnsDataFrameFormat.test_returns_dataframe.executor": "Run",
+    "Python tests.Python tests for test_reports.TestSpendingByCategory.test_exception_handling_transactions.executor": "Run",
+    "Python tests.Python tests for test_reports.TestSpendingByCategory.test_exception_hangling_date.executor": "Run",
+    "Python tests.Python tests for test_reports.test_exception_hangling_category.executor": "Run",
+    "Python tests.Python tests for test_services.TestServices.executor": "Run",
+    "Python tests.Python tests for test_services.TestServices.test_for_returned_data_format.executor": "Run",
+    "Python tests.Python tests for test_services.test_for_returned_data_format.executor": "Run",
+    "Python tests.Python tests for test_utils.TestReadCsvFile.test_for_returned_data_format.executor": "Run",
+    "Python tests.Python tests for test_utils.TestReturnAbbreviatedListOfDict.executor": "Run",
+    "Python tests.Python tests for test_utils.TestReturnAbbreviatedListOfDict.test_for_returned_data_format.executor": "Run",
+    "Python tests.Python tests for test_utils.TestReturnAbbreviatedListOfDict.test_input_data_format.executor": "Run",
+    "Python tests.Python tests for test_utils.TestReturnAbbreviatedListOfDict.test_input_data_type.executor": "Run",
+    "Python tests.Python tests for test_utils.TestSortTransactions.test_sort_transactions.executor": "Run",
+    "Python tests.Python tests for test_utils.test_read_csv_file.executor": "Run",
+    "Python tests.Python tests for test_views.TestReports.test_reports.executor": "Run",
+    "Python tests.Python tests for test_views.TestServices.test_services.executor": "Run",
+    "Python tests.Python tests for test_views.TestTransactionAnalysis.test_for_returned_data_format.executor": "Run",
+    "Python tests.Python tests for test_views.TestTransactionsAnalysis.test_transaction_analysis.executor": "Run",
+    "Python tests.Python tests in test_reports.py.executor": "Run",
+    "Python tests.Python tests in test_services.py.executor": "Run",
+    "Python tests.Python tests in test_utils.py.executor": "Run",
+    "Python tests.Python tests in test_views.py.executor": "Run",
+    "Python.reports.executor": "Run",
+    "Python.services.executor": "Run",
+    "Python.temp.executor": "Run",
+    "Python.utils.executor": "Debug",
     "Python.views.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/home__page"
+    "git-widget-placeholder": "feature/tests"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Python tests for test_reports.test_exception_hangling_category" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Coursework_1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_reports.test_exception_hangling_category&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_services.test_for_returned_data_format" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Coursework_1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_services.test_for_returned_data_format&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_utils.TestReturnAbbreviatedListOfDict" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Coursework_1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_utils.TestReturnAbbreviatedListOfDict&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_utils.TestSortTransactions.test_sort_transactions" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Coursework_1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_utils.TestSortTransactions.test_sort_transactions&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_utils.test_read_csv_file" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Coursework_1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_utils.test_read_csv_file&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Python tests for test_utils.test_read_csv_file" />
+        <item itemvalue="Python tests.Python tests for test_services.test_for_returned_data_format" />
+        <item itemvalue="Python tests.Python tests for test_reports.test_exception_hangling_category" />
+        <item itemvalue="Python tests.Python tests for test_utils.TestSortTransactions.test_sort_transactions" />
+        <item itemvalue="Python tests.Python tests for test_utils.TestReturnAbbreviatedListOfDict" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -67,7 +189,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/services" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
