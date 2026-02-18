@@ -7,29 +7,35 @@ import pandas as pd
 import requests
 from dotenv import load_dotenv
 
+PATH = os.path.dirname(os.path.abspath(__file__))
+
 load_dotenv()
 pd.set_option("display.max_columns", None)
 
 
-def read_csv_file(
-    file_path=r"C:\Users\Thunderobot\Downloads\operations.xlsx - Отчет по операциям.csv",
-    output_file_path="../data/operations.csv"
-):
+def read_csv_file(output_file_path=os.path.join(PATH, "..", "data", "operations.csv")):
     """считывает файл csv, выводит в виде списка словарей, записывает в новый файл"""
-    with open(file_path, "r", encoding="UTF-8") as infile:  # Открываем для чтения
-        reader = csv.DictReader(infile, delimiter=",")
-        data = list(reader)
-        with open(output_file_path, "w", encoding="UTF-8", newline="") as outfile:
-            writer = csv.DictWriter(outfile, fieldnames=data[0].keys(), delimiter=",")
-            writer.writeheader()
-            writer.writerows(data)
-        return data
+    try:
+        with open(
+            r"C:\Users\Thunderobot\Downloads\operations.xlsx - Отчет по операциям.csv", "r", encoding="UTF-8"
+        ) as infile:
+            reader = csv.DictReader(infile, delimiter=",")
+            data = list(reader)
+            with open(output_file_path, "w", encoding="UTF-8", newline="") as outfile:
+                writer = csv.DictWriter(outfile, fieldnames=data[0].keys(), delimiter=",")
+                writer.writeheader()
+                writer.writerows(data)
+            return data
+    except FileNotFoundError as e:
+        return f"Ошибка: {e}"
+    except TypeError as e:
+        return f"Ошибка: {e}"
 
 
 def define_time():
     """определяет настоящее время и возвращает приветствие, которое ему соответствует"""
     current_date_time = datetime.datetime.now()
-    if current_date_time.hour >= 12:
+    if 18 >= current_date_time.hour >= 12:
         return "Добрый день!"
     elif current_date_time.hour >= 18:
         return "Добрый вечер!"
@@ -39,14 +45,19 @@ def define_time():
 
 def return_abbreviated_list_of_dict(date):
     """пользователь вводит дату и функция возвращает данные до этой даты, отсчитывая от начала указанного месяца"""
-    data = read_csv_file()
-    date_obj = datetime.datetime.strptime(date, "%d.%m.%Y %H:%M:%S")
-    filtered_transactions = []
-    for transaction in data:
-        date_obj_csv = datetime.datetime.strptime(transaction["Дата операции"], "%d.%m.%Y %H:%M:%S")
-        if date_obj_csv < date_obj and date_obj_csv.month == date_obj.month:
-            filtered_transactions.append(transaction)
-    return filtered_transactions
+    try:
+        data = read_csv_file(output_file_path=os.path.join(PATH, "..", "data", "operations.csv"))
+        date_obj = datetime.datetime.strptime(date, "%d.%m.%Y %H:%M:%S")
+        filtered_transactions = []
+        for transaction in data:
+            date_obj_csv = datetime.datetime.strptime(transaction["Дата операции"], "%d.%m.%Y %H:%M:%S")
+            if date_obj_csv < date_obj and date_obj_csv.month == date_obj.month:
+                filtered_transactions.append(transaction)
+        return filtered_transactions
+    except ValueError as e:
+        return f"Ошибка: {e}"
+    except TypeError as e:
+        return f"Ошибка: {e}"
 
 
 def sorts_transactions(transactions):
@@ -70,10 +81,10 @@ def sorts_transactions(transactions):
 
         top_transactions.append(
             {
-                "date": example_transaction["Дата операции"],  # или другой столбец с датой
+                "date": example_transaction["Дата операции"],
                 "amount": example_transaction["Сумма операции"],
                 "category": category,
-                "description": example_transaction["Описание"],  # или другой столбец с описанием
+                "description": example_transaction["Описание"],
             }
         )
 
@@ -159,12 +170,10 @@ def format_dataframe_to_json(card_num_df, top_transactions, currency_rates, stoc
 
 
 if __name__ == "__main__":
-    # transactions = return_abbreviated_list_of_dict("30.12.2021 19:04:44")
-    # card_num_df, top_transactions = sorts_transactions(transactions)
-    # greeting = define_time()
-    # currency_rates = converted_currency()
-    # stock_prices = request_stock_prices()
-    # result = format_dataframe_to_json(card_num_df, top_transactions, currency_rates, stock_prices, greeting)
-    result = read_csv_file(    file_path=r"C:\Users\Thunderobot\Downloads\operations.xlsx - Отчет по операциям.csv",
-    output_file_path="../data/operations.csv")
+    transactions = return_abbreviated_list_of_dict("30.12.2021 19:04:44")
+    card_num_df, top_transactions = sorts_transactions(transactions)
+    greeting = define_time()
+    currency_rates = converted_currency()
+    stock_prices = request_stock_prices()
+    result = format_dataframe_to_json(card_num_df, top_transactions, currency_rates, stock_prices, greeting)
     print(result)
